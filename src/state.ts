@@ -24,7 +24,7 @@ export const useAppStore = defineStore('app', {
       { title: 'Rating', dataIndex: 'hyperdrive_rating', key: 10, width: 150 },
       { title: 'Megalight', dataIndex: 'MGLT', key: 11, width: 150 },
       { title: 'Tanggal Dibuat', dataIndex: 'created', key: 12, width: 150 },
-      { title: 'Terakhir Dimodifikasi', dataIndex: 'edited', key: 13, width: 150 },
+      { title: 'Terakhir Dimodifikasi', dataIndex: 'edited', key: 13, width: 200 },
       { title: 'Aksi', fixed: 'right', dataIndex: 'url', key: 14, width: 100 }
     ] as Column[]
   }),
