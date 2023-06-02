@@ -24,8 +24,8 @@
         </a-menu-item>
       </a-menu>
     </a-layout-sider>
-    <a-layout style="padding: 0 24px 24px">
-      <a-breadcrumb style="margin: 16px 0">
+    <a-layout :style="{ padding: '0 24px 24px', backgroundColor: '#e6f7ff' }">
+      <a-breadcrumb :style="{ margin: '16px 0' }">
         <a-breadcrumb-item @click="navigateToHome">Home</a-breadcrumb-item>
         <a-breadcrumb-item>{{ getPageTitle() }}</a-breadcrumb-item>
         <a-breadcrumb-item v-if="$route.params.id">{{ $route.params.id }}</a-breadcrumb-item>
@@ -35,7 +35,9 @@
           <router-view />
         </div>
 
-        <a-layout-footer style="text-align: center"> Ars_fbrynt @2023 by Vue </a-layout-footer>
+        <a-layout-footer :style="{ textAlign: 'center', backgroundColor: '#e6f7ff' }">
+          Ars_fbrynt @2023 by Vue
+        </a-layout-footer>
       </a-layout-content>
     </a-layout>
   </a-layout>
@@ -57,7 +59,6 @@ export default defineComponent({
       const currentPath: string = (this.$route as RouteLocationNormalized).path
 
       const currentPath2 = currentPath.substring(0, 9)
-      console.log(currentPath2)
 
       if (currentPath === '/') {
         return 'Dashboard'

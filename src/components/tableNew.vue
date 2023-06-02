@@ -14,6 +14,18 @@
         <template v-if="column.key === 14">
           <a-button type="primary" ghost @click="redirectToStarship(record)">Detail</a-button>
         </template>
+        <template v-else-if="column.key === 12 || column.key === 13">
+          {{ formatDate(record[column.dataIndex]) }}
+        </template>
+        <template v-else-if="column.key === 3">
+          <span v-if="record[column.dataIndex] !== 'unknown'"
+            >${{ formatNumber(record[column.dataIndex]) }}</span
+          >
+          <span v-else>Tidak diketahui</span>
+        </template>
+        <template v-else>
+          {{ record[column.dataIndex] }}
+        </template>
       </template>
     </a-table>
   </div>
@@ -21,12 +33,13 @@
 
 <script lang="ts">
 import { defineComponent, ref, watch } from 'vue'
-import type { TableColumnsType } from 'ant-design-vue'
+import dateMixin from '../mixin/dateMixin'
 import axios from 'axios'
 import { useAppStore } from '../state'
 
 export default defineComponent({
   name: 'CustomTable',
+  mixins: [dateMixin],
   props: {
     api: {
       type: String,
@@ -41,11 +54,9 @@ export default defineComponent({
     const columns = appStore.columns
 
     const redirectToStarship = (record: any) => {
-      console.log(record.url)
       const url = record.url
       const arrLastCharacter = url.match(/\d+/g)
       const id = arrLastCharacter[0]
-      console.log(id)
       const starshipUrl = `/starship/${id}`
       window.location.href = starshipUrl
     }

@@ -124,7 +124,6 @@ export default defineComponent({
       .get(`https://swapi.dev/api/starships/${starshipId}`)
       .then((response: any) => {
         this.starship = response.data as Starship
-        console.log(this.starship)
 
         const pilotapi = this.starship?.pilots[0]
 
@@ -132,7 +131,6 @@ export default defineComponent({
           .get(pilotapi)
           .then((response: any) => {
             this.pilots = response.data as Pilots
-            console.log(this.pilots)
           })
           .catch((error: any) => {
             console.error(error)
@@ -143,7 +141,6 @@ export default defineComponent({
           .get(filmapi)
           .then((response: any) => {
             this.films = response.data as Films
-            console.log(this.films)
           })
           .catch((error: any) => {
             console.error(error)
