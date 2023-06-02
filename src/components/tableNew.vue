@@ -1,0 +1,103 @@
+<template>
+  <div>
+    <div :style="{ maxWidth: '300px' }">
+      <a-input-search
+        v-model:value="searchQuery"
+        placeholder="Cari berdasarkan nama / model"
+        enter-button="Cari"
+        size="sm"
+        @search="searchStarships"
+      />
+    </div>
+    <a-table :columns="columns" :data-source="data" :scroll="{ x: 1500, y: 300 }">
+      <template #bodyCell="{ column, record }">
+        <template v-if="column.key === 14">
+          <a-button type="primary" ghost @click="redirectToStarship(record)">Detail</a-button>
+        </template>
+      </template>
+    </a-table>
+  </div>
+</template>
+
+<script lang="ts">
+import { defineComponent, ref, watch } from 'vue'
+import type { TableColumnsType } from 'ant-design-vue'
+import axios from 'axios'
+import { useAppStore } from '../state'
+
+export default defineComponent({
+  name: 'CustomTable',
+  props: {
+    api: {
+      type: String,
+      required: true
+    }
+  },
+  setup(props) {
+    const appStore = useAppStore()
+    const data = ref([])
+    const searchQuery = ref('')
+
+    const columns = appStore.columns
+
+    const redirectToStarship = (record: any) => {
+      console.log(record.url)
+      const url = record.url
+      const arrLastCharacter = url.match(/\d+/g)
+      const id = arrLastCharacter[0]
+      console.log(id)
+      const starshipUrl = `/starship/${id}`
+      window.location.href = starshipUrl
+    }
+
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(props.api)
+        data.value = response.data.results || []
+      } catch (error) {
+        console.error(error)
+      }
+    }
+
+    const searchStarships = async () => {
+      try {
+        const searchUrl = `https://swapi.dev/api/starships/?search=${searchQuery.value}`
+        const response = await axios.get(searchUrl)
+        data.value = response.data.results || []
+      } catch (error) {
+        console.error(error)
+      }
+    }
+
+    watch(
+      () => props.api,
+      () => {
+        fetchData()
+      }
+    )
+
+    fetchData()
+
+    return {
+      columns,
+      data,
+      redirectToStarship,
+      searchQuery,
+      searchStarships
+    }
+  }
+})
+</script>
+
+<style scoped>
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  padding: 8px;
+  border: 1px solid #ccc;
+}
+</style>
